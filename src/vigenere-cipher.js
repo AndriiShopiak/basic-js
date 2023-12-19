@@ -25,17 +25,18 @@ class VigenereCipheringMachine {
     this.value = value;
   }
   encrypt(message, key) {
+    let indexOfKey = 0;
+    let res = [];
+    let index = 0;
+
     if (!message || !key) {
       throw new Error('Incorrect arguments!');
     }
+    let messageArr = message.toUpperCase().split("");
 
     let arrayOfKeys = key.toUpperCase().split("").map((el) => {
       return el.charCodeAt(0) - "A".charCodeAt(0);
     });
-    let messageArr = message.toUpperCase().split("");
-    let indexOfKey = 0;
-    let res = [];
-    let index = 0;
 
     while (index <= messageArr.length -1) {
       if (messageArr[index].toUpperCase() !== messageArr[index].toLowerCase()) {
@@ -53,32 +54,33 @@ class VigenereCipheringMachine {
     return res.reverse().join("");
   }
   decrypt(message, key) {
+    let indexOfKey = 0;
+    let resArr = [];
+    let index = 0;
+
     if (!message || !key) {
       throw new Error('Incorrect arguments!');
     }
+    let messageArr = message.toUpperCase().split("");
 
     let arrayOfKeys = key.toUpperCase().split("").map((el) => {
       return el.charCodeAt(0) - "A".charCodeAt(0);
     });
-    let messageArr = message.toUpperCase().split("");
-    let indexOfKey = 0;
-    let res = [];
-    let index = 0;
 
     while (index <= messageArr.length -1) {
       if (messageArr[index].toUpperCase() !== messageArr[index].toLowerCase()) {
-        res.push(String.fromCharCode("A".charCodeAt(0) + (messageArr[index].charCodeAt(0) - "A".charCodeAt(0) - arrayOfKeys[indexOfKey % arrayOfKeys.length] + 26) % 26));
+        resArr.push(String.fromCharCode("A".charCodeAt(0) + (messageArr[index].charCodeAt(0) - "A".charCodeAt(0) - arrayOfKeys[indexOfKey % arrayOfKeys.length] + 26) % 26));
         indexOfKey += 1;
       } else {
-        res.push(messageArr[index]);
+        resArr.push(messageArr[index]);
       }
       index += 1;
     }
 
     if(this.value) {
-      return res.join("");
+      return resArr.join("");
     }
-    return res.reverse().join("");
+    return resArr.reverse().join("");
   }
 }
 
